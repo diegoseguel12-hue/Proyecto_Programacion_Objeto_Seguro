@@ -14,6 +14,6 @@ class EmpleadoRepositorio:
             conn.execute(
                 """INSERT INTO empleado (rut, fecha_ingreso, sueldo_base)
                    VALUES (?, ?, ?)""",
-                (empleado.rut, empleado.fecha_ingreso.isoformat(), empleado.sueldo_base),
+                (empleado.rut, empleado.fecha_ingreso.isoformat(), empleado._sueldo_base),
             )
         return empleado
