@@ -14,6 +14,6 @@ Caso EcoTech Solutions - TI3021
 
 | Decisión | Opciones | La nuestra |
 |---|---|---|
-| ¿Se borra de verdad? | DELETE real · marcar activo = 0 | |
-| ¿Qué pasa con los hijos? | Cascada · impedir el borrado · dejarlos huérfanos | |
-| ¿Quién asigna el id? | La base (autoincremento) · el programa | |
+| ¿Se borra de verdad? | DELETE real · marcar activo = 0 | DELETE real |
+| ¿Qué pasa con los hijos? | Cascada · impedir el borrado · dejarlos huérfanos | Cascada: al borrar un empleado se borran sus registros de tiempo |
+| ¿Quién asigna el id? | La base (autoincremento) · el programa | El empleado usa el RUT como id; departamento y proyecto usan autoincremento de la base |
