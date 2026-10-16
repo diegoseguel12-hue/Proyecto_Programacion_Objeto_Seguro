@@ -13,6 +13,18 @@ class DepartamentoRepositorio:
             )
         return departamento
 
+    def actualizar(self, departamento):
+        with obtener_conexion() as conn:
+            conn.execute(
+                "UPDATE departamento SET nombre = ? WHERE id = ?"
+                (departamento.nombre)
+            )
+            conn.execute(
+                "UPDATE departamento SET gerente = ? WHERE id = ?"
+                (departamento.gerente)
+            )
+        return departamento
+
     @staticmethod
     def _fila_a_departamento(fila):
         return Departamento(

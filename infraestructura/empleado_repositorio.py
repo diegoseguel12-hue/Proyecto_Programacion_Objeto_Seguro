@@ -42,10 +42,17 @@ class EmpleadoRepositorio:
         return empleado
 
     def eliminar(self, rut):
+        with self.obtener_coneccion() as conn:
+            cursor = conn.execute("UPDATE empleado SET activo = 0 WHERE rut = ?"
+            (rut,)
+            )
+        return cursor.rowcount > 0
+    
+    """def eliminar(self, rut):
         with obtener_conexion() as conn:
             cursor = conn.execute("DELETE FROM empledo WHERE rut = ?, (rut,)")
             conn.execute("DELETE FROM persona WHERE rut =?",(rut))
-        return cursor.rowcount > 0 
+        return cursor.rowcount > 0 """
 
     @staticmethod
     def _fila_a_empleado(fila):

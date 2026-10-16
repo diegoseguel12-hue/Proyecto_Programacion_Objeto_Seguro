@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS empleado (
     fecha_ingreso   DATE NOT NULL,
     sueldo_base     INTEGER NOT NULL,
     departamento_id INTEGER,
+    activo          INTEGER DEFAULT 1,
     FOREIGN KEY (rut) REFERENCES persona(rut),
     FOREIGN KEY (departamento_id) REFERENCES departamento(id)
 );
