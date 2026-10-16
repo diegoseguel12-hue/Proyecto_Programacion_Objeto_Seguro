@@ -5,7 +5,7 @@ la herencia con empleado
 
 class Persona:
 
-    def __init__(self, nombre, rut):
+    def __init__(self, rut, nombre):
 
         self.nombre = nombre
         self.rut = rut
