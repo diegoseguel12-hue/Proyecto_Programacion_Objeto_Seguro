@@ -15,6 +15,21 @@ class Empleado(Persona):
         self.registros = []
         self.departamento = None
 
+        @property
+        def sueldo_base(self):
+            return self._sueldo_base
+
+        @sueldo_base.setter
+        def sueldo_base(self, valor):
+            if not isinstance(valor, int):
+                raise TypeError("El sueldo base debe ser un numero entero")
+            if valor <= 0:
+                raise ValueError("EL sueldo debe ser mayor a 0")
+            self._sueldo_base = valor
+
+        def __str__(self):
+            return f"{self.rut} - {self.nombre} - sueldo ${self.sueldo_base:,}"
+
     def registrarHoras(self, registro):
         ...
 
