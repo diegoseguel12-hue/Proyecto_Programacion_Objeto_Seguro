@@ -36,23 +36,19 @@ class EmpleadoRepositorio:
             conn.execute(
                 """UPDATE empleado 
                 SET fecha_ingreso = ?, sueldo_base = ?
-                WHERE rut = ?"""
-                (empleado.fecha_ingreso.isoformat(), empleado.sueldo_bse, empleado.rut),
+                WHERE rut = ?""",
+                (empleado.fecha_ingreso.isoformat(), empleado.sueldo_base, empleado.rut),
             )
         return empleado
 
     def eliminar(self, rut):
-        with self.obtener_coneccion() as conn:
-            cursor = conn.execute("UPDATE empleado SET activo = 0 WHERE rut = ?"
-            (rut,)
+        with obtener_conexion() as conn:
+            cursor = conn.execute(
+                "UPDATE empleado SET activo = 0 WHERE rut = ?",
+                (rut,),
             )
         return cursor.rowcount > 0
     
-    """def eliminar(self, rut):
-        with obtener_conexion() as conn:
-            cursor = conn.execute("DELETE FROM empledo WHERE rut = ?, (rut,)")
-            conn.execute("DELETE FROM persona WHERE rut =?",(rut))
-        return cursor.rowcount > 0 """
 
     @staticmethod
     def _fila_a_empleado(fila):
@@ -66,7 +62,7 @@ class EmpleadoRepositorio:
     def obtener(self, rut):
         with obtener_conexion() as conn:
             fila = conn.execute(
-                """SELECT p.rut, p.nombre, e.fecha_ingreso, e.sueldobase
+                """SELECT p.rut, p.nombre, e.fecha_ingreso, e.sueldo_base
                    FROM empleado e JOIN persona p ON p.rut = e.rut
                    WHERE e.rut = ?""",
                 (rut,),
