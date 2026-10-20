@@ -18,13 +18,17 @@ class EmpleadoRepositorio:
             )
         return empleado
 
-    def listar(self):
+    def listar(self, nombre_contiene=None):
+        sql = """SELECT p.rut, p.nombre, e.fecha_ingreso, e.sueldo_base
+                FROM empleado e JOIN persona p on p.rut = e.rut
+                WHERE e.activo = 1"""
+        params = []
+        if nombre_contiene:
+            sql += " AND p.nombre LIKE ?"
+            params.append(f"%{nombre_contiene}%")
+        sql += " ORDER BY p.nombre"
         with obtener_conexion() as conn:
-            filas = conn.execute(
-                """SELECT p.rut, p.nombre, e.fecha_ingreso, e.sueldo_base
-                    FROM empleado e JOIN persona p on p.rut = e.rut
-                    WHERE e.activo = 1
-                    ORDER BY p.nombre""").fetchall()
+            filas = conn.execute(sql, params).fetchall()
         return [self._fila_a_empleado(fila) for fila in filas]
 
     def actualizar(self, empleado):

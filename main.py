@@ -14,6 +14,9 @@ def main():
     print(repo.obtener("12345678-9"))
     print(len(repo.listar()))
     ana.sueldo_base = 1_050_000
+    print(len(repo.listar(nombre_contiene="Ana")))
+    print(repo.listar(nombre_contiene="' OR '1'='1"))
+    print(repo.obtener("' OR '1'='1"))
     repo.actualizar(ana)
     print(repo.eliminar("12345678-9"))
     print(repo.obtener("12345678-9"))
