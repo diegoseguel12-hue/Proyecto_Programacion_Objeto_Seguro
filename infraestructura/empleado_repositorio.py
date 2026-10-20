@@ -22,9 +22,9 @@ class EmpleadoRepositorio:
         with obtener_conexion() as conn:
             filas = conn.execute(
                 """SELECT p.rut, p.nombre, e.fecha_ingreso, e.sueldo_base
-                FROM empleado e JOIN persona p on p.rut = e.rut
-                ORDER BY p.nombre"""
-            ).fetchall()
+                    FROM empleado e JOIN persona p on p.rut = e.rut
+                    WHERE e.activo = 1
+                    ORDER BY p.nombre""").fetchall()
         return [self._fila_a_empleado(fila) for fila in filas]
 
     def actualizar(self, empleado):
@@ -64,7 +64,7 @@ class EmpleadoRepositorio:
             fila = conn.execute(
                 """SELECT p.rut, p.nombre, e.fecha_ingreso, e.sueldo_base
                    FROM empleado e JOIN persona p ON p.rut = e.rut
-                   WHERE e.rut = ?""",
+                   WHERE e.rut = ? AND e.activo = 1""",
                 (rut,),
             ).fetchone()
         return self._fila_a_empleado(fila) if fila else None

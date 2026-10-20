@@ -16,6 +16,7 @@ def main():
     ana.sueldo_base = 1_050_000
     repo.actualizar(ana)
     print(repo.eliminar("12345678-9"))
+    print(repo.obtener("12345678-9"))
 
 if __name__ == "__main__":
     main()
