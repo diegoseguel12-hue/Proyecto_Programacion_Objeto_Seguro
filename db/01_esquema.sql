@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS registro_tiempo (
     proyecto_id  INTEGER NOT NULL,
     horas        REAL NOT NULL,
     fecha        DATE NOT NULL,
-    descripcion TEXR NOT NULL,
+    descripcion  TEXT NOT NULL,
     FOREIGN KEY (empleado_rut) REFERENCES empleado(rut) ON DELETE CASCADE,
     FOREIGN KEY (proyecto_id)  REFERENCES proyecto(id)
 );
