@@ -1,14 +1,12 @@
 from datetime import date
-from infraestructura.empleado_repositorio import EmpleadoRepositorio
-from infraestructura.departamento_repositorio import DepartamentoRepositorio
+from infraestructura.repositorios import crear_repositorios
+from infraestructura.conexion import ErrorDeConexion
 from dominio.empleado import Empleado
 from dominio.departamento import Departamento
 
 
-def probar_empleados():
+def probar_empleados(repo):
     print("--- Empleados ---")
-    repo = EmpleadoRepositorio()
-
     ana = Empleado("12345678-9", "Ana Rojas", date(2024, 3, 1), 950_000)
     repo.guardar(ana)
     print(repo.obtener("12345678-9"))
@@ -22,10 +20,8 @@ def probar_empleados():
     print(repo.obtener("12345678-9"))
 
 
-def probar_departamentos():
+def probar_departamentos(repo):
     print("--- Departamentos ---")
-    repo = DepartamentoRepositorio()
-
     ti = Departamento(None, "Tecnología", "Pedro Soto")
     repo.guardar(ti)
     print(ti.id, ti.nombre, ti.gerente)
@@ -40,8 +36,18 @@ def probar_departamentos():
 
 
 def main():
-    probar_empleados()
-    probar_departamentos()
+    try:
+        repo_empleados, repo_departamentos = crear_repositorios()
+    except ErrorDeConexion as e:
+        print("Error de configuración:", e)
+        return
+
+    for prueba, repo in ((probar_empleados, repo_empleados),
+                         (probar_departamentos, repo_departamentos)):
+        try:
+            prueba(repo)
+        except ErrorDeConexion as e:
+            print("Error:", e)
 
 
 if __name__ == "__main__":
