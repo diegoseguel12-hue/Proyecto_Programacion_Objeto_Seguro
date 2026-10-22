@@ -7,6 +7,23 @@ class EmpleadoRepositorio:
 
     def guardar(self, empleado):
         with obtener_conexion() as conn:
+            existente = conn.execute(
+                "SELECT activo FROM empleado WHERE rut = ?",
+                (empleado.rut,),
+            ).fetchone()
+            if existente and existente[0] == 0:
+                # El empleado fue dado de baja (borrado logico): se reactiva
+                conn.execute(
+                    "UPDATE persona SET nombre = ? WHERE rut = ?",
+                    (empleado.nombre, empleado.rut),
+                )
+                conn.execute(
+                    """UPDATE empleado
+                       SET fecha_ingreso = ?, sueldo_base = ?, activo = 1
+                       WHERE rut = ?""",
+                    (empleado.fecha_ingreso.isoformat(), empleado.sueldo_base, empleado.rut),
+                )
+                return empleado
             conn.execute(
                 "INSERT INTO persona (rut, nombre) VALUES (?, ?)",
                 (empleado.rut, empleado.nombre),
@@ -71,4 +88,4 @@ class EmpleadoRepositorio:
                    WHERE e.rut = ? AND e.activo = 1""",
                 (rut,),
             ).fetchone()
-        return self._fila_a_empleado(fila) if fila else None
+        return self._fila_a_empleado(fila) if fila else None

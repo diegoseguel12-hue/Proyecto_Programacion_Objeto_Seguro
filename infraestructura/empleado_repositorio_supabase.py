@@ -9,6 +9,21 @@ class EmpleadoRepositorioSupabase:
 
     def guardar(self, empleado):
         with operacion_supabase() as db:
+            existente = (
+                db.table("empleado").select("activo")
+                .eq("rut", empleado.rut).execute()
+            )
+            if existente.data and not existente.data[0]["activo"]:
+                # El empleado fue dado de baja (borrado logico): se reactiva
+                db.table("persona").update(
+                    {"nombre": empleado.nombre}
+                ).eq("rut", empleado.rut).execute()
+                db.table("empleado").update({
+                    "fecha_ingreso": empleado.fecha_ingreso.isoformat(),
+                    "sueldo_base": empleado.sueldo_base,
+                    "activo": True,
+                }).eq("rut", empleado.rut).execute()
+                return empleado
             db.table("persona").insert(
                 {"rut": empleado.rut, "nombre": empleado.nombre}
             ).execute()
