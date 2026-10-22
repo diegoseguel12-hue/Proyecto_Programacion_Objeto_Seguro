@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from infraestructura.conexion import ErrorDeConexion
+from infraestructura.conexion import ErrorDeConexion, inicializar_bd
 
 load_dotenv()
 
@@ -11,6 +11,7 @@ def crear_repositorios():
     if motor == "sqlite":
         from infraestructura.empleado_repositorio import EmpleadoRepositorio
         from infraestructura.departamento_repositorio import DepartamentoRepositorio
+        inicializar_bd()  # crea las tablas si es la primera ejecución
         return EmpleadoRepositorio(), DepartamentoRepositorio()
 
     if motor == "supabase":

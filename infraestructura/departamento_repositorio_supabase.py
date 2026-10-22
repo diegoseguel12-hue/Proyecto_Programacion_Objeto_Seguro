@@ -1,8 +1,9 @@
 from dominio.departamento import Departamento
+from infraestructura.base import DepartamentoRepositorioBase
 from infraestructura.supabase_cliente import operacion_supabase
 
 
-class DepartamentoRepositorioSupabase:
+class DepartamentoRepositorioSupabase(DepartamentoRepositorioBase):
 
     def guardar(self, departamento):
         with operacion_supabase() as db:
