@@ -117,30 +117,30 @@ def probar_empleados(repo):
     repo.eliminar("12345678-9")
     ana = Empleado("12345678-9", "Ana Rojas", date(2024, 3, 1), 950_000)
     repo.guardar(ana)
-    print(repo.obtener("12345678-9"))
-    print(len(repo.listar()))
-    print(len(repo.listar(nombre_contiene="Ana")))
-    print(repo.listar(nombre_contiene="' OR '1'='1"))
-    print(repo.obtener("' OR '1'='1"))
+    print("1. Guardar y leer por RUT      :", repo.obtener("12345678-9"))
+    print("2. Total de empleados activos  :", len(repo.listar()))
+    print("3. Filtro 'Ana' (parametrizado):", len(repo.listar(nombre_contiene="Ana")), "resultado(s)")
+    print("4. Inyeccion en el filtro      :", repo.listar(nombre_contiene="' OR '1'='1"), "(sin resultados: ataque inofensivo)")
+    print("5. Inyeccion en el RUT         :", repo.obtener("' OR '1'='1"), "(no existe: ataque inofensivo)")
     ana.sueldo_base = 1_050_000
-    repo.actualizar(ana)
-    print(repo.eliminar("12345678-9"))
-    print(repo.obtener("12345678-9"))
+    print("6. Actualizar sueldo (filas)   :", repo.actualizar(ana))
+    print("7. Dar de baja (borrado logico):", repo.eliminar("12345678-9"))
+    print("8. Leer tras la baja           :", repo.obtener("12345678-9"), "(ya no aparece)")
 
 
 def probar_departamentos(repo):
     print("--- Departamentos ---")
     ti = Departamento(None, "Tecnología", "Pedro Soto")
     repo.guardar(ti)
-    print(ti.id, ti.nombre, ti.gerente)
-    print(len(repo.listar()))
-    print(repo.listar(nombre_contiene="' OR '1'='1"))
-    print(repo.obtener("' OR '1'='1"))
+    print("1. Guardar (id asignado)       :", ti.id, ti.nombre, ti.gerente)
+    print("2. Total de departamentos      :", len(repo.listar()))
+    print("3. Inyeccion en el filtro      :", repo.listar(nombre_contiene="' OR '1'='1"), "(sin resultados: ataque inofensivo)")
+    print("4. Inyeccion en el id          :", repo.obtener("' OR '1'='1"), "(no existe: ataque inofensivo)")
     ti.gerente = "María Pérez"
-    print(repo.actualizar(ti))
-    print(repo.obtener(ti.id).gerente)
-    print(repo.eliminar(ti.id))
-    print(repo.obtener(ti.id))
+    print("5. Actualizar gerente (filas)  :", repo.actualizar(ti))
+    print("6. Leer gerente actualizado    :", repo.obtener(ti.id).gerente)
+    print("7. Eliminar                    :", repo.eliminar(ti.id))
+    print("8. Leer tras eliminar          :", repo.obtener(ti.id), "(ya no existe)")
 
 
 def ejecutar_pruebas(repo_empleados, repo_departamentos):
