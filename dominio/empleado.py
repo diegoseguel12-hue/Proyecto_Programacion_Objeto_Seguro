@@ -65,7 +65,7 @@ class Usuario(Empleado):
         self._usuario = usuario
         self._contrasena = contrasena
 
-    def asigar_departamento(self, asignar):
+    def asignar_departamento(self, asignar):
         """Asigna el departamento en el que trabaja el empleado."""
         if not isinstance(asignar, Departamento):
             raise DatoInvalidoError("Solo se puede asignar un objeto Departamento")
