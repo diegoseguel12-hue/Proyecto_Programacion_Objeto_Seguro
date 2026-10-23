@@ -161,12 +161,16 @@ def demostrar_polimorfismo(repo_empleados, repo_departamentos):
     persona = Persona("11111111-1", "Persona de ejemplo")
     empleado = Empleado("22222222-2", "Empleado de ejemplo", date(2024, 1, 15), 800_000)
     usuario = Usuario("33333333-3", "Usuario de ejemplo", date(2023, 6, 1),
-                      900_000, "uejemplo", "clave-de-ejemplo")
+                      900_000, "uejemplo", "clave-de-ejemplo", "Administrador")
     usuario.asignar_departamento(Departamento(1, "Tecnología", "Pedro Soto"))
     usuario.registrarHoras(RegistroTiempo(1, 8, date(2026, 10, 1), "Desarrollo", usuario.rut, 1))
     for objeto in (persona, empleado, usuario):
         print(f"  [{type(objeto).__name__}] {objeto}")
     print(f"  {usuario.generar_informe()}")
+    print(f"  Contraseña correcta : {usuario.autenticar('clave-de-ejemplo')}")
+    print(f"  Contraseña incorrecta: {usuario.autenticar('otra-clave')}")
+    print(f"  Permiso 'informes'  : {usuario.permiso('informes')}")
+    print(f"  Permiso 'horas'     : {usuario.permiso('horas')}")
 
 
 # ---------------------------------------------------------------
